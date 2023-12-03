@@ -1,0 +1,174 @@
+---
+title: 'Como usar MDX en Nextjs 14'
+date: '28 de Noviembre, 2023'
+tags: ['nextjs', 'mdx', 'darkmode']
+author: 'Rene Huanca'
+summary: 'Tutorial de como usar MDX en nextjs 14 con rehypeHighlight para highlight de codigo y remarkGfm para ver tablas en nuestros archivos markdown.'
+---
+
+# Como usar MDX en nextjs 14 con rehypeHighlight y remarkGfm
+
+MDX es una sintaxis que nos permite escribir JSX en nuestros archivos markdown. Esto nos permite escribir componentes de React en nuestros archivos markdown.
+
+## Contenido
+
+## Instalación
+
+```bash
+npm install @next/mdx @mdx-js/loader @mdx-js/react @types/mdx
+```
+
+Estas dependencias nos permiten usar MDX en nuestros archivos markdown.
+
+```bash
+npm install remark-gfm rehype-highlight
+```
+
+- remarkGfm: nos permite usar la sintaxis de github como ser tablas, listas de tareas, etc en nuestros archivos markdown.
+- rehypeHighlight: nos permite usar el resaltado de sintaxis de codigo en nuestros archivos markdown.
+
+## Configurar next
+
+Crea el archivo `mdx-components.tsx` en la carpeta root de tu proyecto con el siguiente contenido:
+
+```jsx
+import type { MDXComponents } from 'mdx/types'
+ 
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    ...components,
+  }
+}
+```
+
+## Configurar nextjs
+
+En el archivo `next.config.mjs` agregamos la siguiente configuración:
+
+```js
+import remarkGfm from 'remark-gfm'
+import createMDX from '@next/mdx'
+import rehypeHighlight from 'rehype-highlight'
+ 
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Configure `pageExtensions`` to include MDX files
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
+  // Optionally, add any other Next.js config below
+}
+ 
+const withMDX = createMDX({
+  // Add markdown plugins here, as desired
+  options: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [rehypeHighlight]
+  },
+})
+ 
+// Merge MDX config with Next.js config
+export default withMDX(nextConfig)
+```
+
+En el codigo de arriba rehypeHighlight esta cargando en todos los lenguages de programación lo cual no es muy eficiente.
+
+Para solucionar esto podemos usar solo los lenguages que necesitamos mas información en la doc de rehypeHighlight.
+
+
+## Crear la página
+
+```bash
+  your-project
+  ├── app
+  │   └── my-mdx-page
+  │       └── page.mdx
+  └── package.json
+```
+
+En el archivo `page.mdx` agregamos el siguiente contenido:
+
+```text
+# Welcome to my MDX page!
+ 
+This is some **bold** and _italics_ text.
+ 
+This is a list in markdown:
+ 
+- One
+- Two
+- Three
+
+This is a table in markdown:
+
+| Syntax | Description |
+| ----------- | ----------- |
+| Header | Title |
+| Paragraph | Text |
+
+``` 
+
+si tiene un error en las tablas de remarkGfm puede ser que tendra que bajar `remark-gfm` de versión 4.0.1 a versión 3.0.1 y el error desaparecera.
+
+## Highligh de sintaxis
+
+Para usar el resaltado de sintaxis en nuestros archivos markdown debemos instalar el plugin `tailwindcss-highlightjs` y agregarla a nuestro archivo `tailwind.config.js`:
+
+Tambien debemos instalar el plugin `tailwindcss-typography` para poder usar estilos para mejorar la tipografia de nuestros archivos markdown.
+
+```bash
+npm install tailwindcss-highlightjs tailwindcss-typography
+```
+
+```js
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}'
+  ],
+  theme: {
+    hljs: {
+      theme: 'atom-one-dark'
+    }
+  },
+  plugins: [require('@tailwindcss/typography'), require('tailwind-highlightjs')],
+  safelist: [
+    {
+      pattern: /hljs+/
+    }
+  ]
+}
+export default config
+```
+
+Ahora solo debemos agregar la clase `prose` a nuestro componente `MDXComponents`
+
+Podemos usar layout para agregar estilos a nuestros archivos markdown para eso crea el siguiente archivo `layout.tsx` en la carpeta `my-mdx-page`:
+
+```bash
+  your-project
+  ├── app
+  │   └── my-mdx-page
+  │       └── page.mdx
+  │       └── layout.tsx
+  └── package.json
+```
+
+y agregamos el siguiente contenido:
+
+```jsx
+export default function Layout({ children }) {
+  return (
+    <article className='prose prose-slate lg:prose-lg dark:prose-invert'>
+      {children}
+    </article>
+  )
+}
+```
+
+Eso es todo, ahora podemos usar MDX en nuestros archivos markdown.
+
+## Extras
+
+La manera de agregar `highlight` recomendada por nextjs es usando `rehype-pretty-code`.

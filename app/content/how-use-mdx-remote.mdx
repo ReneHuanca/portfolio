@@ -1,0 +1,136 @@
+---
+title: 'Como usar MDXRemote en Nextjs 14'
+date: '28 de Noviembre, 2023'
+tags: ['nextjs', 'mdx']
+author: 'Rene Huanca'
+summary: 'Como usar mdx-remote en Nextjs 14, tambien veremos como usar remark-gfm y rehype-highlight'
+---
+
+# Como usar mdx-remote en Nextjs 14
+
+Continuando con el anterior post, en este post vamos a ver como usar `mdx-remote` en Nextjs 14.
+
+## Contenido
+
+## ¿Qué es mdx remote?
+
+`mdx-remote` es una librería que nos permite renderizar contenido mdx desde una fuente externa, como puede ser un CMS o una API, en este caso vamos a usar archivos mdx alojados en nuestra propia aplicación.
+
+## Instalación
+
+```bash
+yarn add next-mdx-remote
+```
+
+creamos en nuestro proyecto: `my-project/lib/mdx.js`
+
+```js
+import fs from 'fs'
+import path from 'path'
+import { compileMDX } from 'next-mdx-remote/rsc'
+import rehypeHighlight from 'rehype-highlight'
+import remarkGfm from 'remark-gfm'
+
+const rootDirectory = path.join(process.cwd(), 'app', 'content')
+
+export const getPostBySlug = async (slug) => {
+  const realSlug = slug.replace(/\.mdx$/, '')
+  const filePath = path.join(rootDirectory, `${realSlug}.mdx`)
+  const fileContent = fs.readFileSync(filePath, { encoding: 'utf-8' })
+  const { frontmatter, content } = await compileMDX({
+    source: fileContent,
+    options: {
+      parseFrontmatter: true,
+      mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeHighlight] }
+    }
+  })
+
+  return {
+    meta: {
+      ...frontmatter,
+      slug: realSlug
+    },
+    content
+  }
+}
+
+export const getAllPostsMeta = async () => {
+  const files = fs.readdirSync(rootDirectory)
+  const posts = []
+
+  for (const file of files) {
+    const { meta } = await getPostBySlug(file)
+    posts.push(meta)
+  }
+
+  return posts
+}
+```
+
+Creamos los siguientes archivos:
+
+```bash
+  app
+  ├── posts
+  │   ├── [slug]
+  │   │   └── page.tsx
+  │   └── page.tsx
+  └── package.json
+```
+
+En `post/page.tsx` tenemos lo siguiente:
+
+```tsx
+import Link from 'next/link'
+import { getAllPostsMeta } from '@/lib/mdx'
+
+const PostsPage = async (): Promise<JSX.Element> => {
+  const posts = await getAllPostsMeta()
+
+  return (
+    <div>
+      <h1>Posts</h1>
+      {posts.map((post: any) => (
+        <div key={post.slug}>
+          <Link href={`/posts/${post.slug}`}>
+            {post.title}
+            {post.date}
+          </Link>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export default PostsPage
+```
+
+En `posts/[slug]/page.tsx` tenemos lo siguiente:
+
+```tsx
+import { getPostBySlug } from '@/lib/mdx'
+
+const getPageContent = async (slug: string) => {
+  const { meta, content } = await getPostBySlug(slug)
+  return { meta, content }
+}
+
+export async function generateMetadata({ params }: any) {
+  const { meta } = await getPageContent(params.slug)
+  return { title: meta.title }
+}
+
+const Page = async ({ params }: any) => {
+  const { content } = await getPageContent(params.slug)
+
+  return (
+    <article className='prose prose-slate lg:prose-lg dark:prose-invert'>
+      {content}
+    </article>
+  )
+}
+
+export default Page
+```
+
+Con esto ya tenemos nuestra aplicación funcionando con mdx remote.
