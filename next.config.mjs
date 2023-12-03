@@ -20,7 +20,10 @@ const options = {
 const withMDX = createMDX({
   // Add markdown plugins here, as desired
   options: {
-    remarkPlugins: [remarkGfm, remarkToc],
+    remarkPlugins: [
+      remarkGfm,
+      [remarkToc, { heading: 'Contenido' }]
+    ],
     rehypePlugins: [
       [rehypePrettyCode, options],
       rehypeSlug,

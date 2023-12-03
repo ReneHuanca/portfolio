@@ -22,7 +22,9 @@ export const getPostBySlug = async (slug) => {
     source: fileContent,
     options: {
       parseFrontmatter: true,
-      mdxOptions: { remarkPlugins: [remarkGfm, remarkToc], rehypePlugins: [[rehypePrettyCode, options], rehypeAutolinkHeadings, rehypeSlug] }
+      mdxOptions: {
+        remarkPlugins: [remarkGfm, [remarkToc, { heading: 'Contenido' }]],
+        rehypePlugins: [[rehypePrettyCode, options], rehypeAutolinkHeadings, rehypeSlug] }
     }
   })
 
