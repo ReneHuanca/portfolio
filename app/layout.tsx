@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { nunito } from './ui/fonts'
 import './globals.css'
+import Navbar from './ui/Navbar'
 
 export const metadata: Metadata = {
   title: 'Rene Huanca',
@@ -14,7 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={`${nunito.className} antialiased`}>{children}</body>
+      <body className={`${nunito.className} antialiased`}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   )
 }

@@ -1,0 +1,107 @@
+---
+title: 'Agregar un ThemeSwitcher a tu web en nextjs 14'
+date: '30 de Noviembre, 2023'
+tags: ['nextjs', 'darkmode']
+author: 'Rene Huanca'
+summary: 'Un tutorial para agregar un ThemeSwitcher con la biblioteca next-themes y sus ventajas al usarlo.'
+---
+
+# Agregar un ThemeSwitcher a tu web en nextjs 14
+
+En este tutorial vamos a ver como agregar un ThemeSwitcher a tu web en nextjs 14, para ello vamos a usar la biblioteca [next-themes](https://github.com/pacocoursey/next-themes) que nos permite agregar un cambio de themas en dos lineas de codigo.
+
+## Contents
+
+## Características
+
+- Cambio de themas en dos lineas de codigo.
+- Soporte para Nextjs `appDir`
+- No mas flash al cargar la pagina.
+- Sincroniza las pestañas al cambiar de tema.
+- y mucho mas.
+
+
+## Instalación
+
+Para instalar la biblioteca vamos a usar el siguiente comando:
+
+```bash
+npm install next-themes
+```
+
+## Configuración
+
+Empezamos creando un contenedor de proveedores en el archivo `app/providers.tsx` con el siguiente contenido:
+
+```jsx
+'use client'
+
+import { ThemeProvider } from 'next-themes'
+
+export function Providers({ children }) {
+  return <ThemeProvider attribute='class'>{children}</ThemeProvider>
+}
+```
+
+- attribute: El atributo que se agregará al elemento `<html>`, para el uso de tailwindcss usamos `class`.
+
+Luego simplemente agregue el provider a su archivo `app/layout.tsx`:
+
+```jsx
+import { Providers } from './providers'
+
+export default function Layout({ children }) {
+  return (
+    <html suppressHydrationWarning>
+      <head />
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
+}
+```
+
+## Uso del ThemeSwitcher
+
+Para usar el ThemeSwitcher simplemente agregue el siguiente codigo a su componente `ThemeChanger.tsx`:
+
+```tsx
+'use client'
+
+import { useTheme } from 'next-themes'
+
+const ThemeChanger = () => {
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
+
+  // When mounted on client, now we can show the UI
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) {
+    return null
+  }
+
+  return (
+    <div>
+      The current theme is: {theme}
+      <button onClick={() => setTheme('light')}>Light Mode</button>
+      <button onClick={() => setTheme('dark')}>Dark Mode</button>
+    </div>
+  )
+}
+```
+
+## Configuración de Tailwindcss
+
+Agregar el siguiente codigo a su archivo `tailwind.config.js`:
+
+```js
+module.exports = {
+  darkMode: 'class',
+  // ...
+}
+```
+Antes no te olvides de borrar los estilos por defecto en `globals.css`:
+
+Y listo ya tienes un ThemeSwitcher en tu web.
