@@ -14,7 +14,7 @@ const nextConfig = {
 
 /** @type {import('rehype-pretty-code').Options} */
 const options = {
-  theme: 'material-theme-palenight',
+  theme: 'one-dark-pro',
 }
  
 const withMDX = createMDX({

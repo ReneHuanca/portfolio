@@ -15,7 +15,7 @@ export const getPostBySlug = async (slug) => {
   const fileContent = fs.readFileSync(filePath, { encoding: 'utf-8' })
 
   const options = {
-    theme: 'material-theme-palenight'
+    theme: 'one-dark-pro'
   }
 
   const { frontmatter, content } = await compileMDX({
