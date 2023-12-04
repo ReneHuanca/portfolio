@@ -62,6 +62,8 @@ export default function Layout({ children }) {
 }
 ```
 
+No olvide agregar el suppressHydrationWarning para evitar el flash al cargar la pagina.
+
 ## Uso del ThemeSwitcher
 
 Para usar el ThemeSwitcher simplemente agregue el siguiente codigo a su componente `ThemeChanger.tsx`:
@@ -91,6 +93,8 @@ const ThemeChanger = () => {
   )
 }
 ```
+
+**Nota:** No olvides que el componente de ThemeChanger debe estar dentro del provider.
 
 ## Configuración de Tailwindcss
 

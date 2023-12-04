@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { NavLinks, NavLinksMobile } from './NavLinks'
 import Image from 'next/image'
+import ThemeSwitcher from './ThemeSwitcher'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -29,11 +30,12 @@ export default function Navbar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
             <div className="flex flex-shrink-0 items-center">
-              <Image src="/next.svg" alt="Your Company" className='dark:invert' width={64} height={32} />
+              <Image src="/next.svg" alt="Your Company" className='invert' width={64} height={32} />
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 <NavLinks />
+                <ThemeSwitcher />
               </div>
             </div>
           </div>
@@ -44,6 +46,7 @@ export default function Navbar() {
         <div className="sm:hidden" id="mobile-menu">
           <div className="space-y-1 px-2 pb-3 pt-2">
             <NavLinksMobile />
+            <ThemeSwitcher />
           </div>
         </div>
       )}

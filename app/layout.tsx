@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { nunito } from './ui/fonts'
+import { ProviderTheme } from './providers'
 import './globals.css'
 import Navbar from './ui/Navbar'
 
@@ -14,10 +15,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body className={`${nunito.className} antialiased`}>
-        <Navbar />
-        {children}
+        <ProviderTheme>
+          <Navbar />
+          {children}
+        </ProviderTheme>
       </body>
     </html>
   )
