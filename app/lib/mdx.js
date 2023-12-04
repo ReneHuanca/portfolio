@@ -14,6 +14,7 @@ export const getPostBySlug = async (slug) => {
   const filePath = path.join(rootDirectory, `${realSlug}.mdx`)
   const fileContent = fs.readFileSync(filePath, { encoding: 'utf-8' })
 
+  /** @type {import('rehype-pretty-code').Options} */
   const options = {
     theme: 'one-dark-pro'
   }
