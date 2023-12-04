@@ -31,6 +31,7 @@ export const getPostBySlug = async (slug) => {
 
   return {
     meta: {
+      title: '',
       ...frontmatter,
       slug: realSlug
     },
