@@ -2,16 +2,17 @@ import { getPostBySlug } from '@/app/lib/mdx'
 
 const getPageContent = async (slug: string) => {
   const { meta, content } = await getPostBySlug(slug)
+
   return { meta, content }
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params }: { params: { slug: string } }) {
   const { meta } = await getPageContent(params.slug)
 
   return { title: meta.title }
 }
 
-export default async function Page({ params }) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const { content } = await getPageContent(params.slug)
 
   return (
