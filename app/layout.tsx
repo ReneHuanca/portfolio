@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
-import { poppins } from './ui/fonts'
+import { raleway } from './ui/fonts'
 import { ProviderTheme } from './providers'
 import './globals.css'
 import Navbar from './ui/Navbar'
+import Footer from './ui/Footer'
 
 export const metadata: Metadata = {
   title: 'Rene Huanca',
@@ -15,11 +16,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className={`${poppins.className} antialiased`}>
+    <html lang="es" suppressHydrationWarning className='scroll-smooth overflow-x-hidden'>
+      <body className={`${raleway.className} antialiased dark:bg-gray-900`}>
         <ProviderTheme>
           <Navbar />
           {children}
+          <Footer />
         </ProviderTheme>
       </body>
     </html>

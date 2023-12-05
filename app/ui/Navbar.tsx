@@ -1,23 +1,40 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLinks, NavLinksMobile } from './NavLinks'
 import Image from 'next/image'
+import Link from 'next/link'
 import ThemeSwitcher from './ThemeSwitcher'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scroll, setScroll] = useState(false)
+
+  useEffect(() => {
+    function handleScroll() {
+      if (window.scrollY > 0) {
+        setScroll(true)
+      } else {
+        setScroll(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   function handleClick() {
     setMenuOpen(!menuOpen)
   }
 
   return (
-    <nav className="bg-gray-800">
-      <div className="mx-auto max-w-3xl px-2 sm:px-6 lg:px-8 xl:max-w-5xl">
+    <nav className={`${scroll || menuOpen ? 'bg-white dark:bg-gray-950/50 backdrop-blur-md shadow' : ''} dark:bg-transparent fixed w-full z-10`}>
+      <div className="mx-auto max-w-5xl px-2 sm:px-4">
         <div className="relative flex h-16 items-center justify-between">
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <button onClick={handleClick} type="button" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+          <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
+            <button onClick={handleClick} type="button" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-700 dark:text-gray-400 bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-700 hover:text-black dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300 dark:focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
               <span className="absolute -inset-0.5"></span>
               <span className="sr-only">Open main menu</span>
               <svg className={`${menuOpen ? 'hidden' : 'block'} h-6 w-6`} fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
@@ -28,9 +45,11 @@ export default function Navbar() {
               </svg>
             </button>
           </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
+          <div className="flex flex-1 items-center justify-start sm:items-stretch sm:justify-between">
             <div className="flex flex-shrink-0 items-center">
-              <Image src="/next.svg" alt="Your Company" className='invert' width={64} height={32} />
+              <Link href='/'>
+                <Image src="/logo.svg" alt="Your Company" className='' width={30} height={32} />
+              </Link>
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">

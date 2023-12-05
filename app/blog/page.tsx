@@ -31,7 +31,7 @@ export default async function Blog() {
                   </h2>
                   <div className="flex flex-wrap">
                     {post.tags.map((tag: any) => (
-                      <Link key={tag} className="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600 dark:hover:text-primary-400" href="#">
+                      <Link key={tag} className="mr-3 text-sm font-semibold uppercase text-primary hover:text-primary-600 dark:hover:text-primary-400" href={`/tags/${tag}`}>
                         {tag}
                       </Link>
                     ))}
@@ -43,7 +43,7 @@ export default async function Blog() {
                 </div>
                 <div className="text-base font-medium leading-6">
                   <Link
-                    className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                    className="text-primary hover:text-primary-600 dark:hover:text-primary-400"
                     href={`/blog/${post.slug}`}
                   >
                     Leer mas →

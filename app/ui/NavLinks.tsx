@@ -2,9 +2,12 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { poppins } from './fonts'
 
 const routes = [
-  { name: 'Home', href: '/' },
+  { name: 'Inicio', href: '/#Home' },
+  { name: 'Sobre mí', href: '/#About' },
+  { name: 'Proyectos', href: '/#Projects' },
   { name: 'Blog', href: '/blog' }
 ]
 
@@ -18,7 +21,7 @@ export function NavLinks() {
           <Link
             key={route.name}
             href={route.href}
-            className={`${pathName === route.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} rounded-md px-3 py-2 text-sm font-medium`}
+            className={`${pathName === route.href ? 'bg-gray-100 dark:bg-gray-900 text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-black dark:hover:text-white'} rounded-md px-3 py-2 text-sm font-medium ${poppins.className}`}
           >
             {route.name}
           </Link>
@@ -38,7 +41,7 @@ export function NavLinksMobile() {
           <Link
             key={route.name}
             href={route.href}
-            className={`${pathName === route.href ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} block rounded-md px-3 py-2 text-base font-medium`}
+            className={`${pathName === route.href ? 'bg-gray-100 dark:bg-gray-900 text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-black dark:hover:text-white'} block rounded-md px-3 py-2 text-base font-medium ${poppins.className}`}
           >
             {route.name}
           </Link>

@@ -12,6 +12,23 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+      },
+      textColor: {
+        primary: '#08d9d6'
+      },
+      keyframes: {
+        rotate: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' }
+        },
+        rotateReverse: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(-360deg)' }
+        }
+      },
+      animation: {
+        rotate: 'rotate 60s linear infinite',
+        rotateReverse: 'rotateReverse 60s linear infinite'
       }
     }
   },
