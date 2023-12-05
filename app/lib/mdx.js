@@ -2,10 +2,10 @@ import fs from 'fs'
 import path from 'path'
 import { compileMDX } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
-import rehypePrettyCode from 'rehype-pretty-code'
 import remarkToc from 'remark-toc'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeSlug from 'rehype-slug'
+import rehypeHighlight from 'rehype-highlight'
 
 const rootDirectory = path.join(process.cwd(), 'app', 'content')
 
@@ -14,18 +14,13 @@ export const getPostBySlug = async (slug) => {
   const filePath = path.join(rootDirectory, `${realSlug}.mdx`)
   const fileContent = fs.readFileSync(filePath, { encoding: 'utf-8' })
 
-  /** @type {import('rehype-pretty-code').Options} */
-  const options = {
-    theme: 'one-dark-pro'
-  }
-
   const { frontmatter, content } = await compileMDX({
     source: fileContent,
     options: {
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [remarkGfm, [remarkToc, { heading: 'Contenido' }]],
-        rehypePlugins: [[rehypePrettyCode, options], rehypeAutolinkHeadings, rehypeSlug] }
+        rehypePlugins: [rehypeHighlight, rehypeAutolinkHeadings, rehypeSlug] }
     }
   })
 
