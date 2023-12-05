@@ -1,20 +1,15 @@
 import remarkGfm from 'remark-gfm'
 import createMDX from '@next/mdx'
 import remarkToc from 'remark-toc'
-import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypeHighlight from 'rehype-highlight'
  
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Configure `pageExtensions`` to include MDX files
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   // Optionally, add any other Next.js config below
-}
-
-/** @type {import('rehype-pretty-code').Options} */
-const options = {
-  theme: 'one-dark-pro',
 }
  
 const withMDX = createMDX({
@@ -25,7 +20,7 @@ const withMDX = createMDX({
       [remarkToc, { heading: 'Contenido' }]
     ],
     rehypePlugins: [
-      [rehypePrettyCode, options],
+      rehypeHighlight,
       rehypeSlug,
       rehypeAutolinkHeadings,
     ],

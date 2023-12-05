@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { poppins } from './ui/fonts'
 import { ProviderTheme } from './providers'
 import './globals.css'
+import './atom-one-dark.css'
 import Navbar from './ui/Navbar'
 
 export const metadata: Metadata = {
