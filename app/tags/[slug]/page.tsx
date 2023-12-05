@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getAllTagsFromPosts, getPostsByTag } from '@/app/lib/mdx'
 
-export default async function Tags({ params }: any) {
+export default async function Tags({ params }: { params: { slug: string } }) {
   const posts = await getPostsByTag(params.slug)
   const tags = await getAllTagsFromPosts()
 

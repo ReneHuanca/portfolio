@@ -27,6 +27,9 @@ export const getPostBySlug = async (slug) => {
   return {
     meta: {
       title: '',
+      date: '',
+      tags: [],
+      summary: '',
       ...frontmatter,
       slug: realSlug
     },
