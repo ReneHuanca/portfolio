@@ -7,7 +7,8 @@ export default function Hero() {
   return (
     <section className='pt-16 md:pt-[80px] max-w-5xl w-full mx-auto md:px-4 flex flex-col-reverse md:flex-row md:justify-between items-center' id="Home">
       <div className='flex flex-col justify-center items-center md:items-start'>
-        <h1 className={`${poppins.className} text-primary text-4xl font-semibold md:text-6xl mt-6 md:mt-0`}>René Huanca</h1>
+        <p className='py-2 px-6 sm:mb-4 rounded-full border border-gray-500 text-xs text-gray-500' style={{ letterSpacing: '.5rem' }}>DESARROLLADOR WEB</p>
+        <h1 className={`${poppins.className} text-gray-900 dark:text-primary text-4xl font-semibold md:text-6xl mt-6 md:mt-0`}>René Huanca</h1>
         <p className='mt-4 md:mt-8 dark:text-textcolor text-center md:text-left text-lg md:text-2xl max-w-md px-4 md:px-0 md:max-w-lg'>Construyendo el futuro con React: Código claro, soluciones poderosas.</p>
         <div className='flex gap-3 mt-4 md:mt-8'>
           <a href="/docs/Rene Gonzalo Huanca Mamani - CV.pdf" rel="noopener noreferrer" target={'_blank'}>
