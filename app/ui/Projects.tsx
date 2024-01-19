@@ -34,6 +34,28 @@ export const TECNOLOGIES = {
 
 const projects: Project[] = [
   {
+    title: 'Beauty Salon',
+    description: 'App para un salon de belleza backend y frontend.',
+    image: 'beauty-salon-api-thumbnail.png',
+    technologies: [
+      TECNOLOGIES.react,
+      TECNOLOGIES.laravel
+    ],
+    githubUrl: 'https://github.com/renehuanca/beauty-salon-api',
+    liveUrl: ''
+  },
+  {
+    title: 'Aprende Ingles Tecleando',
+    description: 'Mejora tus hailidades de ingles escribiendo.',
+    image: 'aprende-ingles-tecleando-thumbnail.png',
+    technologies: [
+      TECNOLOGIES.react,
+      TECNOLOGIES.tailwindCSS
+    ],
+    githubUrl: 'https://github.com/renehuanca/aprende-ingles-tecleando',
+    liveUrl: 'https://renehuanca.github.io/aprende-ingles-tecleando/'
+  },
+  {
     title: 'Google Translate Clone',
     description: 'Un clon de Google Translate usando useReducer de react.',
     image: 'google-translate-clone-thumbnail.png',
